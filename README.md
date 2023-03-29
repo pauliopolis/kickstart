@@ -21,5 +21,3 @@ Create custom ISO with the kickstart file and modified boot loader menu to allow
 
 ``$create-gold-iso gold``
 
-this is required if the iso will be used by packer subsequently)
-
