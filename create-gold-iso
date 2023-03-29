@@ -1,0 +1,69 @@
+#!/bin/bash
+clear 
+
+if [ "$#" -ne 1 ] 
+then
+	echo "USAGE: $(basename $0) <version>"
+	echo "Example: $(basename $0) v4"
+	exit
+elif [ $1 == "help" ] 
+then
+	echo "USAGE: $(basename $0) <version>"
+	echo "Example: $(basename $0) v4"
+	echo "Example: $(basename $0) gold (this is required for use by packer)"
+	exit
+fi
+
+ISODIR=/mnt/d/ISOs
+VERSION=$1
+RHELISO=rhel-8.6-x86_64-dvd.iso
+CUSTOMISO=$ISODIR/$VERSION-$RHELISO
+LOG=/mnt/c/users/user/desktop/customisobuildlog.txt
+
+if [ -f $CUSTOMISO ] 
+then
+	echo "ERROR: file already exists"
+	exit
+fi
+
+if [ ! -d /cdrom/rhel-8.6 ] 
+then
+	echo "creating native ISO mountpoint" 
+	sudo mkdir /cdrom/rhel-8.6
+fi
+
+if [ ! -f $ISODIR/$RHELISO ]
+then
+	echo "ERROR: Cannot find native rhel 8.6 iso"
+	exit
+fi
+
+echo "Mounting native RHEL 8.6 iso at /cdrom/rhel-8.6"
+sudo mount -o loop $ISODIR/$RHELISO /cdrom/rhel-8.6/ 2>/dev/null
+echo
+df -h /cdrom/rhel-8.6
+
+echo "Syncrhonising content to temporary build location"
+sudo rsync -qav /cdrom/rhel-8.6/ /tmp/rhel86/
+echo
+
+echo "Customise syslinux bootloader menu"
+sudo cp /mnt/c/users/user/desktop/kickstart/isolinux/isolinux.cfg /tmp/rhel86/isolinux/isolinux.cfg
+
+echo "Insert latest ks.cfg"
+sudo cp /mnt/c/users/user/desktop/kickstart/ks.cfg /tmp/rhel86/ks.cfg
+
+echo "Prepare to create customised ISO"
+cd /tmp/rhel86
+
+echo "Creating customised ISO"
+sudo mkisofs -o $CUSTOMISO -b isolinux/isolinux.bin -J -R -l -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -eltorito-alt-boot -e images/efiboot.img -no-emul-boot -graft-points -joliet-long -V "RHEL-8.6 CUSTOM" .
+
+echo "Implanting md5 checksum"
+implantisomd5 --force --supported-iso $CUSTOMISO
+
+echo "Obtaining md5 checksum"
+CHECKSUM=$(md5sum /mnt/d/ISOs/packer-rhel-8.6-x86_64-dvd.iso )
+
+echo "Inserting md5sum into Packer template"
+echo $CHECKSUM >>  /mnt/c/users/user/desktop/packer/templates/rhel8-$VERSION/$VERSION-virtualbox.pkr.hcl 
