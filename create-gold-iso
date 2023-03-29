@@ -63,7 +63,4 @@ echo "Implanting md5 checksum"
 implantisomd5 --force --supported-iso $CUSTOMISO
 
 echo "Obtaining md5 checksum"
-CHECKSUM=$(md5sum /mnt/d/ISOs/packer-rhel-8.6-x86_64-dvd.iso )
-
-echo "Inserting md5sum into Packer template"
-echo $CHECKSUM >>  /mnt/c/users/user/desktop/packer/templates/rhel8-$VERSION/$VERSION-virtualbox.pkr.hcl 
+md5sum $CUSTOMISO | awk '{print$1}' >> $CUSTOMISO.md5
