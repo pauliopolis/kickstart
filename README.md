@@ -1,5 +1,5 @@
 # kickstart
-Kickstart stuff
+The purpose of this kickstart configuration file is the creation of a minimal Red Hat 8.6 build for use by Packer.  My environment doesn't allow for the self-hosted Packer solution, nor is there an available web server.  The customisation of the RHEL build is standard and includes both the ks.cfg and a modified isolinux.cfg
 
 # Environment
 * Windows 10 Home Edition 
@@ -11,8 +11,6 @@ Kickstart stuff
 
 # Kickstart Project : 
 
-Create custom ISO with the kickstart file and modified boot loader menu to allow auto-installation without requirement to host the kicstart file elsewhere.
-
 # Tools
 ``$create-gold-iso <name>``
   Examples : 
@@ -20,4 +18,3 @@ Create custom ISO with the kickstart file and modified boot loader menu to allow
 ``$create-gold-iso v4``
 
 ``$create-gold-iso gold``
-
