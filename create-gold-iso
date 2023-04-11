@@ -15,10 +15,10 @@ then
 	exit
 fi
 
-ISODIR=/mnt/d/ISOs/custom
+ISODIR=/mnt/d/ISOs
 VERSION=$1
 RHELISO=rhel-8.6-x86_64-dvd.iso
-CUSTOMISO=$ISODIR/$VERSION-$RHELISO
+CUSTOMISO=$ISODIR/custom/$VERSION-$RHELISO
 
 if [ -f $CUSTOMISO ] 
 then
