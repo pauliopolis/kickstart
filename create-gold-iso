@@ -43,7 +43,7 @@ sudo mount -o loop $ISODIR/$RHELISO /cdrom/rhel-8.6/ 2>/dev/null
 echo
 df -h /cdrom/rhel-8.6
 
-echo "2. Syncrhonising content to temporary build location"
+echo "2. Synchronising content to temporary build location"
 sudo rsync -qav /cdrom/rhel-8.6/ /tmp/rhel86/
 echo
 
