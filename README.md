@@ -36,3 +36,8 @@ The menu and item titles are changed to make it clear this is a customised iso a
 # ks.cfg
 
 Not much to say about this it's pretty standard stuff.  The packages that are included are specifically required by this environment to allow Packer to use ansible-local to install VBoxAdditions when creating a Vagrant BOX.  You will need to add your own root & vagrant user password hashes.
+
+# Example
+
+![image](https://user-images.githubusercontent.com/14337141/231193651-0d21fc17-d574-43a4-bde5-7d44fffec85c.png)
+
