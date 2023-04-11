@@ -1,5 +1,5 @@
 # kickstart
-The purpose of this kickstart configuration file is the creation of a minimal Red Hat 8.6 build for use by Packer.  My environment doesn't allow for the self-hosted Packer solution, nor is there an available web server.  The customisation of the RHEL build is standard and includes both the ks.cfg and a modified isolinux.cfg
+The purpose of this kickstart configuration file is the creation of a minimal Red Hat 8.6 build for use by Packer.  My environment doesn't allow for the self-hosted Packer solution, nor is there an available web server so here we first create a slightly customised ISO containing both the ks.cfg and a modified isolinux.cfg
 
 # Environment
 * Windows 10 Home Edition 
@@ -12,9 +12,27 @@ The purpose of this kickstart configuration file is the creation of a minimal Re
 # Kickstart Project : 
 
 # Tools
+
+Not a particularly elegant script but used to reliably repeat the process of building the customised ISO and provided for convenience.
+
 ``$create-gold-iso <name>``
+
+* Mounts the native RHEL 8.6 iso
+* Copies (using rsync) the iso content to a build directory
+* Copies in the isolinux.cfg and ks.cfg 
+* Builds the customised iso
+* Implants an MD5 checksum (keeping a readable copy)
+  
   Examples : 
 
 ``$create-gold-iso v4``
 
 ``$create-gold-iso gold``
+
+# isolinux.cfg
+
+The menu and item titles are changed to make it clear this is a customised iso and the append line now points to the included ks.cfg (along with a few minor modifications).
+
+# ks.cfg
+
+Not much to say about this it's pretty standard stuff.  The packages that are included are specifically required by this environment to allow Packer to use ansible-local to install VBoxAdditions when creating a Vagrant BOX.
