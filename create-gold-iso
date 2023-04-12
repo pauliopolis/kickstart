@@ -58,6 +58,11 @@ echo
 
 echo "5. Prepare to create customised ISO"
 cd /tmp/rhel86
+ROOT=$(awk -F: '$1 ~/root/ {print$2}' /mnt/c/users/user/desktop/kickstart/.creds)
+sed -i "s|^rootpw.*$|rootpw --iscrypted $ROOT|g" /tmp/rhel86/ks.cfg.git 
+
+VAGRANT=$(awk -F: '$1 ~/vagrant/ {print$2}' /mnt/c/users/user/desktop/kickstart/.creds)
+sed -i "s|^user --name=vagrant.*$|user --name=vagrant --iscrypted --password=$VAGRANT --gid=500 --uid=5000 --groups=wheel|g" /tmp/rhel86/ks.cfg
 echo
 
 echo "6. Creating customised ISO"
