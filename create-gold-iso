@@ -62,7 +62,7 @@ ROOT=$(awk -F: '$1 ~/root/ {print$2}' /mnt/c/users/user/desktop/kickstart/.creds
 sudo sed -i "s|^rootpw.*$|rootpw --iscrypted $ROOT|g" /tmp/rhel86/ks.cfg 
 
 VAGRANT=$(awk -F: '$1 ~/vagrant/ {print$2}' /mnt/c/users/user/desktop/kickstart/.creds)
-sudo sed -i "s|^user --name=vagrant.*$|user --name=vagrant --iscrypted --password=$VAGRANT --gid=500 --uid=5000 --groups=wheel|g" /tmp/rhel86/ks.cfg
+sudo sed -i "s|^user --name=vagrant.*$|user --name=vagrant --iscrypted --password=$VAGRANT --gid=5000 --uid=5000 --groups=wheel|g" /tmp/rhel86/ks.cfg
 echo
 
 echo "6. Creating customised ISO"
