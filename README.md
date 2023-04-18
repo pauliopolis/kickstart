@@ -1,4 +1,7 @@
 # kickstart
+
+[![spotify-github-profile](https://spotify-github-profile.vercel.app/api/view?uid=1148941328&cover_image=true&theme=default&show_offline=false&background_color=121212&interchange=false&bar_color_cover=true)](https://spotify-github-profile.vercel.app/api/view?uid=1148941328&redirect=true)
+
 The purpose of this kickstart configuration file is the creation of a minimal Red Hat 8.6 build for use by Packer.  My environment doesn't allow for the self-hosted Packer solution, nor is there an available web server so here we first create a slightly customised ISO containing both the ks.cfg and a modified isolinux.cfg
 
 # Environment
